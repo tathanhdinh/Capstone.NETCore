@@ -6,6 +6,35 @@ namespace Gee.External.Capstone {
     ///     Capstone Import.
     /// </summary>
     public static class CapstoneImport {
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_version")]
+        public static extern uint Version(ref IntPtr major, ref IntPtr minor);
+
+        /// <summary>
+        ///     Ask for archs/modes supported by Capstone
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_support")]
+        public static extern bool Support(int query);
+
+        /// <summary>
+        ///     Open a Capstone Handle.
+        /// </summary>
+        /// <param name="architecture">
+        ///     An integer indicating the disassemble architecture.
+        /// </param>
+        /// <param name="mode">
+        ///     An integer indicating the disassemble mode.
+        /// </param>
+        /// <param name="handle">
+        ///     A pointer to a Capstone handle.
+        /// </param>
+        /// <returns>
+        ///     An integer indicating the result of the operation.
+        /// </returns>
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_open")]
+        public static extern int Open(int architecture, int mode, ref IntPtr handle);
+
         /// <summary>
         ///     Close a Capstone Handle.
         /// </summary>
@@ -74,24 +103,6 @@ namespace Gee.External.Capstone {
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_insn_name")]
         public static extern IntPtr InstructionName(IntPtr pHandle, uint id);
-
-        /// <summary>
-        ///     Open a Capstone Handle.
-        /// </summary>
-        /// <param name="architecture">
-        ///     An integer indicating the disassemble architecture.
-        /// </param>
-        /// <param name="mode">
-        ///     An integer indicating the disassemble mode.
-        /// </param>
-        /// <param name="handle">
-        ///     A pointer to a Capstone handle.
-        /// </param>
-        /// <returns>
-        ///     An integer indicating the result of the operation.
-        /// </returns>
-        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_open")]
-        public static extern int Open(int architecture, int mode, ref IntPtr handle);
 
         /// <summary>
         ///     Resolve a Registry Unique Identifier to an Registry Name.
