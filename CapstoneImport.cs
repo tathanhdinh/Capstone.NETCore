@@ -48,6 +48,27 @@ namespace Gee.External.Capstone {
         public static extern int Close(ref IntPtr pHandle);
 
         /// <summary>
+        ///     Set a Disassemble Option.
+        /// </summary>
+        /// <param name="pHandle">
+        ///     A pointer to a Capstone handle.
+        /// </param>
+        /// <param name="option">
+        ///     An integer indicating the option to set.
+        /// </param>
+        /// <param name="value">
+        ///     A platform specific integer indicating the value to set.
+        /// </param>
+        /// <returns>
+        ///     An integer indicating the result of the operation.
+        /// </returns>
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_option")]
+        public static extern int SetOption(IntPtr pHandle, int option, IntPtr value);
+
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_errno")]
+        public static extern int Errno(UIntPtr handle);
+
+        /// <summary>
         ///     Disassemble Binary Code.
         /// </summary>
         /// <param name="pHandle">
@@ -74,7 +95,8 @@ namespace Gee.External.Capstone {
         ///     <c>IntPtr.Zero</c> indicates no instructions were disassembled as a result of an error.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_disasm")]
-        public static extern IntPtr Disassemble(IntPtr pHandle, IntPtr pCode, IntPtr codeSize, ulong startingAddress, IntPtr count, ref IntPtr instruction);
+        public static extern IntPtr Disassemble(IntPtr pHandle, IntPtr pCode, IntPtr codeSize,
+                                                ulong startingAddress, IntPtr count, ref IntPtr instruction);
 
         /// <summary>
         ///     Free Memory Allocated For Disassembled Instructions.
@@ -119,23 +141,5 @@ namespace Gee.External.Capstone {
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_reg_name")]
         public static extern IntPtr RegistryName(IntPtr pHandle, uint id);
-
-        /// <summary>
-        ///     Set a Disassemble Option.
-        /// </summary>
-        /// <param name="pHandle">
-        ///     A pointer to a Capstone handle.
-        /// </param>
-        /// <param name="option">
-        ///     An integer indicating the option to set.
-        /// </param>
-        /// <param name="value">
-        ///     A platform specific integer indicating the value to set.
-        /// </param>
-        /// <returns>
-        ///     An integer indicating the result of the operation.
-        /// </returns>
-        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_option")]
-        public static extern int SetOption(IntPtr pHandle, int option, IntPtr value);
     }
 }
