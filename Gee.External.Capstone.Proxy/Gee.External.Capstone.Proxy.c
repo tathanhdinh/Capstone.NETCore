@@ -1,16 +1,25 @@
 #include "capstone.h"
 
-_declspec(dllexport) cs_arm* ArmDetail(cs_detail *detail)
+#ifdef _WIN32
+_declspec(dllexport)
+#endif
+cs_arm* CapstoneArmDetail(cs_detail *detail)
 {
 	return &detail->arm;
 }
 
-_declspec(dllexport) cs_arm64* Arm64Detail(cs_detail *detail)
+#ifdef _WIN32
+_declspec(dllexport)
+#endif
+cs_arm64* CapstoneArm64Detail(cs_detail *detail)
 {
 	return &detail->arm64;
 }
 
-_declspec(dllexport) cs_x86* X86Detail(cs_detail *detail)
+#ifdef _WIN32
+_declspec(dllexport)
+#endif
+cs_x86* CapstoneX86Detail(cs_detail *detail)
 {
 	return &detail->x86;
 }

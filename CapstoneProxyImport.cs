@@ -7,12 +7,12 @@ namespace Gee.External.Capstone {
     /// </summary>
     public static class CapstoneProxyImport {
         [DllImport("Gee.External.Capstone.Proxy.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "CapstoneArmDetail")]
-        public static extern IntPtr ArmDetail(IntPtr pDetail);
+        public static extern UIntPtr ArmDetail(UIntPtr pDetail);
 
         [DllImport("Gee.External.Capstone.Proxy.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "CapstoneArm64Detail")]
-        public static extern IntPtr Arm64Detail(IntPtr pDetail);
+        public static extern UIntPtr Arm64Detail(UIntPtr pDetail);
 
         [DllImport("Gee.External.Capstone.Proxy.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "CapstoneX86Detail")]
-        public static extern IntPtr X86Detail(IntPtr pDetail);
+        public static extern UIntPtr X86Detail(UIntPtr pDetail);
     }
 }
