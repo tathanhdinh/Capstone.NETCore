@@ -543,7 +543,9 @@ namespace Gee.External.Capstone {
                 // Disassemble Binary Code.
                 //
                 // ...
-                var pResultCode = CapstoneImport.Disassemble(_disassembler.Handle.DangerousGetHandle(), pCode, pSize, this._currentAddress, pCount, ref pInstructions);
+                var pResultCode = CapstoneImport.Disassemble(_disassembler.Handle.DangerousGetHandle(),
+                                                             pCode, pSize, this._currentAddress, pCount,
+                                                             ref pInstructions);
 
                 var iResultCode = (int) pResultCode;
                 var nativeInstructions = MarshalExtension.PtrToStructure<NativeInstruction>(pInstructions, iResultCode);

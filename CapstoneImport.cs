@@ -12,7 +12,9 @@ namespace Gee.External.Capstone {
         /// <summary>
         ///     Ask for archs/modes supported by Capstone
         /// </summary>
-        /// <param name="query"></param>
+        /// <param name="query">
+        ///     
+        /// </param>
         /// <returns></returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_support")]
         public static extern bool Support(int query);
@@ -66,7 +68,10 @@ namespace Gee.External.Capstone {
         public static extern int SetOption(IntPtr pHandle, int option, IntPtr value);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_errno")]
-        public static extern int Errno(UIntPtr handle);
+        public static extern int GetLastError(UIntPtr handle);
+
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_strerrno")]
+        public static extern IntPtr FormatMessage(int code);
 
         /// <summary>
         ///     Disassemble Binary Code.
