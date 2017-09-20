@@ -17,7 +17,7 @@ namespace Gee.External.Capstone {
         /// <summary>
         ///     Instruction Count.
         /// </summary>
-        private readonly IntPtr _instructionCount;
+        private readonly UIntPtr _instructionCount;
 
         /// <summary>
         ///     Instructions.
@@ -39,7 +39,7 @@ namespace Gee.External.Capstone {
         /// <value>
         ///     A platform specific integer representing the number of disassembled instructions in unmanaged memory.
         /// </value>
-        internal IntPtr InstructionCount {
+        internal UIntPtr InstructionCount {
             get {
                 return this._instructionCount;
             }
@@ -69,7 +69,7 @@ namespace Gee.External.Capstone {
         /// <param name="instructionCount">
         ///     A platform specific integer representing the number of disassembled instructions in unmanaged memory.
         /// </param>
-        public SafeNativeInstructionHandle(IEnumerable<NativeInstruction> instructions, IntPtr pInstructions, IntPtr instructionCount) : base(true) {
+        public SafeNativeInstructionHandle(IEnumerable<NativeInstruction> instructions, IntPtr pInstructions, UIntPtr instructionCount) : base(true) {
             this._instructions = instructions;
             this.handle = pInstructions;
             this._instructionCount = instructionCount;

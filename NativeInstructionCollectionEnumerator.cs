@@ -132,7 +132,7 @@ namespace Gee.External.Capstone {
         /// </param>
         private void Dispose(bool disposing) {
             if (!this._disposed) {
-                var pNativeInstructionCount = (IntPtr) this._nativeInstructions.Length;
+                var pNativeInstructionCount = (UIntPtr) this._nativeInstructions.Length;
                 CapstoneImport.Free(this._pNativeInstructions, pNativeInstructionCount);
             }
 

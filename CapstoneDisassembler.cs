@@ -536,14 +536,14 @@ namespace Gee.External.Capstone {
                 this.CheckDisposed();
 
                 var pCode = this._pinnedCode.AddrOfPinnedObject() + this._currentOffset;
-                var pCount = (IntPtr) 1;
+                var pCount = (UIntPtr) 1;
                 var pInstructions = IntPtr.Zero;
-                var pSize = (IntPtr) this._codeSize - this._currentOffset;
+                var pSize = (UIntPtr) this._codeSize - this._currentOffset;
 
                 // Disassemble Binary Code.
                 //
                 // ...
-                var pResultCode = CapstoneImport.Disassemble(_disassembler.Handle.DangerousGetHandle(),
+                var pResultCode = CapstoneImport.Disassemble((UIntPtr)(ulong)(long)_disassembler.Handle.DangerousGetHandle(),
                                                              pCode, pSize, this._currentAddress, pCount,
                                                              ref pInstructions);
 

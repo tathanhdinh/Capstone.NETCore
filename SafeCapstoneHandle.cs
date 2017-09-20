@@ -12,8 +12,8 @@ namespace Gee.External.Capstone {
         /// <param name="handle">
         ///     A pointer to a handle representing a capstone engine. Should not be a null reference.
         /// </param>
-        public SafeCapstoneHandle(IntPtr handle) : base(true) {
-            this.handle = handle;
+        public SafeCapstoneHandle(UIntPtr handle) : base(true) {
+            this.handle = unchecked((IntPtr)(long)(ulong)handle);
         }
 
         /// <summary>

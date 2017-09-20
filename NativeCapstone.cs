@@ -34,7 +34,7 @@ namespace Gee.External.Capstone {
                 throw new InvalidOperationException("Unable to create a Capstone disassembler.");
             }
 
-            var handle = new SafeCapstoneHandle(pHandle);
+            var handle = new SafeCapstoneHandle((UIntPtr) (ulong) (long) pHandle);
             return handle;
         }
 
@@ -79,17 +79,17 @@ namespace Gee.External.Capstone {
             var pCode = MarshalExtension.AllocHGlobal<byte>(code.Length);
             Marshal.Copy(code, 0, pCode, code.Length);
 
-            var pCount = (IntPtr) count;
+            var pCount = (UIntPtr) count;
             var pHandle = handle.DangerousGetHandle();
             var pInstructions = IntPtr.Zero;
-            var pSize = (IntPtr) code.Length;
+            var pSize = (UIntPtr) code.Length;
             var uStartingAddress = (ulong) startingAddress;
 
             // Disassemble Binary Code.
             //
             // ...
-            var pResultCode = CapstoneImport.Disassemble(pHandle, pCode, pSize, uStartingAddress, pCount, ref pInstructions);
-            if (pResultCode == IntPtr.Zero) {
+            var pResultCode = CapstoneImport.Disassemble(unchecked((UIntPtr)(ulong)(ulong)handle.DangerousGetHandle()), pCode, pSize, uStartingAddress, pCount, ref pInstructions);
+            if (pResultCode == UIntPtr.Zero) {
                 throw new InvalidOperationException("Unable to disassemble binary code.");
             }
 
@@ -246,14 +246,16 @@ namespace Gee.External.Capstone {
         ///     Thrown if the disassemble details option could not be set.
         /// </exception>
         public static void SetDisassembleDetails(SafeCapstoneHandle handle, bool flag) {
-            var pHandle = handle.DangerousGetHandle();
+            // var pHandle = unchecked((UIntPtr)(ulong)(ulong)handle.DangerousGetHandle());
             const int iOption = (int) DisassembleOptionType.Detail;
-            var value = flag ? (IntPtr) DisassembleOptionValue.On : (IntPtr) DisassembleOptionValue.Off;
+            var value = flag ? (UIntPtr) DisassembleOptionValue.On : (UIntPtr) DisassembleOptionValue.Off;
 
             // Set Disassemble Option.
             //
             // ...
-            var resultCode = CapstoneImport.SetOption(pHandle, iOption, value);
+            var resultCode = CapstoneImport.SetOption(unchecked((UIntPtr)(ulong)(ulong)handle.DangerousGetHandle()),
+                                                      iOption,
+                                                      flag ? (UIntPtr) DisassembleOptionValue.On : (UIntPtr) DisassembleOptionValue.Off);
             if (resultCode != (int) DisassembleErrorCode.Ok) {
                 throw new InvalidOperationException("Unable to set disassemble details option.");
             }
@@ -272,13 +274,14 @@ namespace Gee.External.Capstone {
         ///     Thrown if the disassemble syntax option could not be set.
         /// </exception>
         public static void SetDisassembleSyntaxOption(SafeCapstoneHandle handle, DisassembleSyntaxOptionValue value) {
-            var pHandle = handle.DangerousGetHandle();
+            // var pHandle = handle.DangerousGetHandle();
             const int iOption = (int) DisassembleOptionType.Syntax;
 
             // Set Disassemble Option.
             //
             // ...
-            var resultCode = CapstoneImport.SetOption(pHandle, iOption, (IntPtr) value);
+            var resultCode = CapstoneImport.SetOption(unchecked((UIntPtr) (ulong) (ulong) handle.DangerousGetHandle()),
+                                                      iOption, (UIntPtr) value);
             if (resultCode != (int) DisassembleErrorCode.Ok) {
                 throw new InvalidOperationException("Unable to set disassemble syntax option.");
             }
@@ -297,13 +300,14 @@ namespace Gee.External.Capstone {
         ///     Thrown if the disassemble mode option could not be set.
         /// </exception>
         public static void SetDisassembleModeOption(SafeCapstoneHandle handle, DisassembleMode mode) {
-            var pHandle = handle.DangerousGetHandle();
+            // var pHandle = handle.DangerousGetHandle();
             const int iOption = (int) DisassembleOptionType.Mode;
 
             // Set Disassemble Option.
             //
             // ...
-            var resultCode = CapstoneImport.SetOption(pHandle, iOption, (IntPtr) mode);
+            var resultCode = CapstoneImport.SetOption(unchecked((UIntPtr) (ulong) (ulong) handle.DangerousGetHandle()),
+                                                      iOption, (UIntPtr) mode);
             if (resultCode != (int) DisassembleErrorCode.Ok) {
                 throw new InvalidOperationException("Unable to set disassemble mode option.");
             }

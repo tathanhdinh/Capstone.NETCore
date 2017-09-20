@@ -7,7 +7,7 @@ namespace Gee.External.Capstone {
     /// </summary>
     public static class CapstoneImport {
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_version")]
-        public static extern uint Version(ref IntPtr major, ref IntPtr minor);
+        public static extern uint Version(ref int major, ref int minor);
 
         /// <summary>
         ///     Ask for archs/modes supported by Capstone
@@ -40,20 +40,20 @@ namespace Gee.External.Capstone {
         /// <summary>
         ///     Close a Capstone Handle.
         /// </summary>
-        /// <param name="pHandle">
-        ///     A pointer to a Capstone handle.
+        /// <param name="handle">
+        ///     A Capstone handle.
         /// </param>
         /// <returns>
         ///     An integer indicating the result of the operation.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_close")]
-        public static extern int Close(ref IntPtr pHandle);
+        public static extern int Close(ref IntPtr handle);
 
         /// <summary>
         ///     Set a Disassemble Option.
         /// </summary>
-        /// <param name="pHandle">
-        ///     A pointer to a Capstone handle.
+        /// <param name="handle">
+        ///     A Capstone handle.
         /// </param>
         /// <param name="option">
         ///     An integer indicating the option to set.
@@ -65,10 +65,10 @@ namespace Gee.External.Capstone {
         ///     An integer indicating the result of the operation.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_option")]
-        public static extern int SetOption(IntPtr pHandle, int option, IntPtr value);
+        public static extern int SetOption(UIntPtr handle, int option, UIntPtr value);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_errno")]
-        public static extern int GetLastError(IntPtr pHandle);
+        public static extern int GetLastError(UIntPtr handle);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_strerrno")]
         public static extern IntPtr FormatMessage(int code);
@@ -100,8 +100,8 @@ namespace Gee.External.Capstone {
         ///     <c>IntPtr.Zero</c> indicates no instructions were disassembled as a result of an error.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_disasm")]
-        public static extern UIntPtr Disassemble(IntPtr pHandle, IntPtr pCode, UIntPtr codeSize,
-                                                 ulong startingAddress, UIntPtr count, ref IntPtr instruction);
+        public static extern UIntPtr Disassemble(UIntPtr handle, IntPtr pCode, UIntPtr codeSize,
+                                                 UInt64 startingAddress, UIntPtr count, ref IntPtr instruction);
 
         /// <summary>
         ///     Free Memory Allocated For Disassembled Instructions.
@@ -115,11 +115,14 @@ namespace Gee.External.Capstone {
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_free")]
         public static extern void Free(IntPtr pInstructions, UIntPtr instructionCount);
 
+        [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_malloc")]
+        public static extern IntPtr Malloc(UIntPtr handle);
+
         /// <summary>
         ///     Resolve a Registry Unique Identifier to an Registry Name.
         /// </summary>
-        /// <param name="pHandle">
-        ///     A pointer to a Capstone handle.
+        /// <param name="handle">
+        ///     A Capstone handle.
         /// </param>
         /// <param name="id">
         ///     A registry's unique identifier.
@@ -129,13 +132,13 @@ namespace Gee.External.Capstone {
         ///     registry's unique identifier is invalid.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_reg_name")]
-        public static extern IntPtr RegistryName(IntPtr pHandle, uint id);
+        public static extern IntPtr RegistryName(UIntPtr handle, uint id);
 
         /// <summary>
         ///     Resolve an Instruction Unique Identifier to an Instruction Name.
         /// </summary>
-        /// <param name="pHandle">
-        ///     A pointer to a Capstone handle.
+        /// <param name="handle">
+        ///     A Capstone handle.
         /// </param>
         /// <param name="id">
         ///     An instruction's unique identifier.
@@ -145,18 +148,18 @@ namespace Gee.External.Capstone {
         ///     instruction's unique identifier is invalid.
         /// </returns>
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_insn_name")]
-        public static extern IntPtr InstructionName(UIntPtr handle, uint insn_id);
+        public static extern IntPtr InstructionName(UIntPtr handle, uint id);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_group_name")]
-        public static extern IntPtr GroupName(UIntPtr handle, uint group_id);
+        public static extern IntPtr GroupName(UIntPtr handle, uint id);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_insn_group")]
-        public static extern IntPtr InstructionGroup(UIntPtr handle, IntPtr insn, uint group_id);
+        public static extern IntPtr InstructionGroup(UIntPtr handle, IntPtr pInstruction, uint id);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_reg_read")]
-        public static extern bool IsRegisterRead(UIntPtr handle, IntPtr insn, uint reg_id);
+        public static extern bool IsRegisterRead(UIntPtr handle, IntPtr pInstruction, uint id);
 
         [DllImport("capstone.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "cs_reg_write")]
-        public static extern bool IsRegisterWrite(UIntPtr handle, IntPtr insn, uint reg_id);
+        public static extern bool IsRegisterWrite(UIntPtr handle, IntPtr pInstruction, uint id);
     }
 }
