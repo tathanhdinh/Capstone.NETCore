@@ -2,3 +2,7 @@ obj/
 bin/
 Gee.External.Capstone.Proxy/Debug
 Gee.External.Capstone.Proxy/x64
+Gee.External.Capstone.Proxy/*.dll
+Gee.External.Capstone.Proxy/*.obj
+Gee.External.Capstone.Proxy/*.lib
+.vs/
