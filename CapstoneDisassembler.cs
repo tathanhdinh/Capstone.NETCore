@@ -224,7 +224,7 @@ namespace Gee.External.Capstone {
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if the binary code could not be disassembled.
         /// </exception>
-        public Instruction<TArchitectureInstruction, TArchitectureRegister, TArchitectureGroup, TArchitectureDetail>[] Disassemble(byte[] code, int count, long startingAddress) {
+        public Instruction<TArchitectureInstruction, TArchitectureRegister, TArchitectureGroup, TArchitectureDetail>[] Disassemble(byte[] code, int count, ulong startingAddress) {
             var nativeInstructions = NativeCapstone.Disassemble(this.Handle, code, count, startingAddress);
             var instructions = nativeInstructions
                 .Instructions
@@ -269,7 +269,7 @@ namespace Gee.External.Capstone {
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if the binary code could not be disassembled.
         /// </exception>
-        public Instruction<TArchitectureInstruction, TArchitectureRegister, TArchitectureGroup, TArchitectureDetail>[] DisassembleAll(byte[] code, long startingAddress) {
+        public Instruction<TArchitectureInstruction, TArchitectureRegister, TArchitectureGroup, TArchitectureDetail>[] DisassembleAll(byte[] code, ulong startingAddress) {
             var instructions = this.Disassemble(code, 0, startingAddress);
             return instructions;
         }

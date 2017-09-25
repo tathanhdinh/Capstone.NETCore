@@ -72,7 +72,7 @@ namespace Gee.External.Capstone {
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if the binary code could not be disassembled.
         /// </exception>
-        public static SafeNativeInstructionHandle Disassemble(SafeCapstoneHandle handle, byte[] code, int count, long startingAddress) {
+        public static SafeNativeInstructionHandle Disassemble(SafeCapstoneHandle handle, byte[] code, int count, ulong startingAddress) {
             // Copy Code to Unmanaged Memory.
             //
             // ...
@@ -83,12 +83,13 @@ namespace Gee.External.Capstone {
             var pHandle = handle.DangerousGetHandle();
             var pInstructions = IntPtr.Zero;
             var pSize = (UIntPtr) code.Length;
-            var uStartingAddress = (ulong) startingAddress;
+            // var uStartingAddress = (ulong) startingAddress;
 
             // Disassemble Binary Code.
             //
             // ...
-            var pResultCode = CapstoneImport.Disassemble(unchecked((UIntPtr)(ulong)(ulong)handle.DangerousGetHandle()), pCode, pSize, uStartingAddress, pCount, ref pInstructions);
+            var pResultCode = CapstoneImport.Disassemble(unchecked((UIntPtr)(ulong)(ulong)handle.DangerousGetHandle()), pCode, pSize, 
+                                                         startingAddress, pCount, ref pInstructions);
             if (pResultCode == UIntPtr.Zero) {
                 throw new InvalidOperationException("Unable to disassemble binary code.");
             }
@@ -128,10 +129,10 @@ namespace Gee.External.Capstone {
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if the binary code could not be disassembled.
         /// </exception>
-        public static SafeNativeInstructionHandle Disassemble(SafeCapstoneHandle handle, byte[] code, int count) {
-            var instructionHandle = NativeCapstone.Disassemble(handle, code, 0x1000, count);
-            return instructionHandle;
-        }
+        // public static SafeNativeInstructionHandle Disassemble(SafeCapstoneHandle handle, byte[] code, int count) {
+        //     var instructionHandle = NativeCapstone.Disassemble(handle, code, 0x1000, count);
+        //     return instructionHandle;
+        // }
 
         /// <summary>
         ///     Disassemble All Binary Code.
@@ -151,7 +152,7 @@ namespace Gee.External.Capstone {
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if the binary code could not be disassembled.
         /// </exception>
-        public static SafeNativeInstructionHandle DisassembleAll(SafeCapstoneHandle handle, byte[] code, long startingAddress) {
+        public static SafeNativeInstructionHandle DisassembleAll(SafeCapstoneHandle handle, byte[] code, ulong startingAddress) {
             var instructionHandle = NativeCapstone.Disassemble(handle, code, 0, startingAddress);
             return instructionHandle;
         }
